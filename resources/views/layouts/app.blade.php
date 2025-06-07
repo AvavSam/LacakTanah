@@ -23,8 +23,7 @@
             <!-- Logo -->
             <div class="flex items-center">
               <a href="{{ route('dashboard') }}" class="flex items-center">
-                <img class="h-8 w-auto" src="{{ asset('lacaktanah1.png') }}" alt="Logo" />
-                <span class="ml-2 text-xl font-semibold text-gray-800">{{ config('app.name', 'Lacak') }}</span>
+                <img class="h-8 w-auto" src="{{ asset('lacaktanah_full.png') }}" alt="Logo" />
               </a>
             </div>
             <!-- Desktop Menu -->

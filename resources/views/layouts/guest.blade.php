@@ -20,7 +20,7 @@
     <div class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
       <div>
         <a href="/">
-          <img src="{{ asset('lacaktanah1.png') }}" alt="LacakTanah Logo" class="h-20 w-auto" />
+          <img src="{{ asset('lacaktanah_full.png') }}" alt="LacakTanah Logo" class="h-20 w-auto" />
         </a>
       </div>
 
