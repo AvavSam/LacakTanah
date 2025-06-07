@@ -40,7 +40,8 @@ class UserController extends Controller
 
     User::create($data);
 
-    return redirect()->route('users.index')
+    return redirect()
+      ->route('users.index')
       ->with('success', 'User baru berhasil dibuat.');
   }
 
@@ -77,7 +78,8 @@ class UserController extends Controller
 
     $user->update($data);
 
-    return redirect()->route('users.index')
+    return redirect()
+      ->route('users.index')
       ->with('success', 'User berhasil diperbarui.');
   }
 
@@ -89,7 +91,8 @@ class UserController extends Controller
     $user = User::findOrFail($id);
     $user->delete();
 
-    return redirect()->route('users.index')
+    return redirect()
+      ->route('users.index')
       ->with('success', 'User berhasil dihapus.');
   }
 }

@@ -36,17 +36,13 @@ class AppServiceProvider extends ServiceProvider
     });
 
     \Storage::extend('azure-blob', function ($app, $config) {
-        $client = BlobRestProxy::createBlobService(
-            "DefaultEndpointsProtocol=https;AccountName={$config['name']};AccountKey={$config['key']}"
-        );
+      $client = BlobRestProxy::createBlobService(
+        "DefaultEndpointsProtocol=https;AccountName={$config['name']};AccountKey={$config['key']}",
+      );
 
-        $adapter = new AzureBlobStorageAdapter($client, $config['container']);
+      $adapter = new AzureBlobStorageAdapter($client, $config['container']);
 
-        return new FilesystemAdapter(
-            new Filesystem($adapter),
-            $adapter,
-            $config
-        );
+      return new FilesystemAdapter(new Filesystem($adapter), $adapter, $config);
     });
   }
 }

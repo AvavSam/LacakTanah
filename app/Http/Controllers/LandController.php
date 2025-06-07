@@ -61,18 +61,17 @@ class LandController extends Controller
 
     if ($request->hasFile('dokumen')) {
       // simpan ke Azure
-      $data['dokumen_path'] = $request->file('dokumen')
-        ->store('dokumen', 'azure');
+      $data['dokumen_path'] = $request->file('dokumen')->store('dokumen', 'azure');
     }
 
     if ($request->hasFile('photo')) {
-      $data['photo_path'] = $request->file('photo')
-        ->store('photos', 'azure');
+      $data['photo_path'] = $request->file('photo')->store('photos', 'azure');
     }
 
     Land::create($data);
 
-    return redirect()->route('lands.index')
+    return redirect()
+      ->route('lands.index')
       ->with('success', 'Data tanah berhasil ditambahkan.');
   }
 
@@ -103,18 +102,17 @@ class LandController extends Controller
     $data = $request->all();
 
     if ($request->hasFile('dokumen')) {
-      $data['dokumen_path'] = $request->file('dokumen')
-        ->store('dokumen', 'azure');
+      $data['dokumen_path'] = $request->file('dokumen')->store('dokumen', 'azure');
     }
 
     if ($request->hasFile('photo')) {
-      $data['photo_path'] = $request->file('photo')
-        ->store('photos', 'azure');
+      $data['photo_path'] = $request->file('photo')->store('photos', 'azure');
     }
 
     $land->update($data);
 
-    return redirect()->route('lands.index')
+    return redirect()
+      ->route('lands.index')
       ->with('success', 'Data tanah berhasil diperbarui.');
   }
   /**
@@ -125,7 +123,8 @@ class LandController extends Controller
     $land = Land::findOrFail($id);
     $land->delete();
 
-    return redirect()->route('lands.index')
+    return redirect()
+      ->route('lands.index')
       ->with('success', 'Data tanah berhasil dihapus.');
   }
 
