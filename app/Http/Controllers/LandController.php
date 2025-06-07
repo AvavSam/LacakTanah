@@ -56,15 +56,18 @@ class LandController extends Controller
    */
   public function store(StoreLandRequest $request)
   {
-    $data = $request->all();
+    $data = $request->validated();
     $data['created_by'] = auth()->id();
 
     if ($request->hasFile('dokumen')) {
-      $data['dokumen_path'] = $request->file('dokumen')->store('dokumen', 'public');
+      // simpan ke Azure
+      $data['dokumen_path'] = $request->file('dokumen')
+        ->store('dokumen', 'azure');
     }
 
     if ($request->hasFile('photo')) {
-      $data['photo_path'] = $request->file('photo')->store('photos', 'public');
+      $data['photo_path'] = $request->file('photo')
+        ->store('photos', 'azure');
     }
 
     Land::create($data);
@@ -100,11 +103,13 @@ class LandController extends Controller
     $data = $request->all();
 
     if ($request->hasFile('dokumen')) {
-      $data['dokumen_path'] = $request->file('dokumen')->store('dokumen', 'public');
+      $data['dokumen_path'] = $request->file('dokumen')
+        ->store('dokumen', 'azure');
     }
 
     if ($request->hasFile('photo')) {
-      $data['photo_path'] = $request->file('photo')->store('photos', 'public');
+      $data['photo_path'] = $request->file('photo')
+        ->store('photos', 'azure');
     }
 
     $land->update($data);
@@ -125,14 +130,14 @@ class LandController extends Controller
   }
 
   public function expiring()
-    {
-        $today = Carbon::today();
-        $threshold = $today->copy()->addDays(30);
+  {
+    $today = Carbon::today();
+    $threshold = $today->copy()->addDays(30);
 
-        $lands = Land::whereNotNull('dokumen_expiry')
-            ->whereBetween('dokumen_expiry', [$today, $threshold])
-            ->paginate(15);
+    $lands = Land::whereNotNull('dokumen_expiry')
+      ->whereBetween('dokumen_expiry', [$today, $threshold])
+      ->paginate(15);
 
-        return view('lands.expiring', compact('lands'));
-    }
+    return view('lands.expiring', compact('lands'));
+  }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\LandController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -23,6 +24,9 @@ Route::middleware('auth')->group(function () {
     ->name('lands.expiring');
   Route::resource('lands', LandController::class);
   Route::resource('users', UserController::class)->except(['show']);
+  Route::get('/file/{path}', [FileController::class, 'serveAzureFile'])
+    ->where('path', '.*')
+    ->name('serve.file');
 });
 
 require __DIR__.'/auth.php';
