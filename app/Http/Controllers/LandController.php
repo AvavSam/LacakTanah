@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLandRequest;
+use App\Http\Requests\UpdateLandRequest;
 use App\Models\Land;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,7 +54,7 @@ class LandController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(StoreLandRequest $request)
   {
     $data = $request->all();
     $data['created_by'] = auth()->id();
@@ -92,7 +94,7 @@ class LandController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, $id)
+  public function update(UpdateLandRequest $request, $id)
   {
     $land = Land::findOrFail($id);
     $data = $request->all();
