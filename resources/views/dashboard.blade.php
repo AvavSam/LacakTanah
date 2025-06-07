@@ -85,5 +85,57 @@
         @endif
       </div>
     </div>
+
+    <div class="rounded-lg bg-white p-4 shadow">
+      <h2 class="mb-2 text-lg font-medium text-gray-700">Peta Tanah Seluruh Indonesia</h2>
+      <div id="map-dashboard" class="h-96 w-full rounded-md border border-gray-300"></div>
+    </div>
   </div>
 @endsection
+
+@push('head')
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+@endpush
+
+@push('scripts')
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- MarkerCluster JS -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const centerLat = -2.5,
+        centerLng = 118,
+        zoomLevel = 5;
+      const map = L.map('map-dashboard').setView([centerLat, centerLng], zoomLevel);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+      }).addTo(map);
+
+      // Setup cluster group
+      const markers = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        maxClusterRadius: 50,
+      });
+
+      const landPoints = @json($landPoints);
+
+      landPoints.forEach((pt) => {
+        const lat = parseFloat(pt.latitude),
+          lng = parseFloat(pt.longitude);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          const m = L.marker([lat, lng]).bindPopup(`<strong>${pt.kode_bidang || 'Tanah'}</strong><br>${pt.owner_name}`);
+          markers.addLayer(m);
+        }
+      });
+
+      map.addLayer(markers);
+    });
+  </script>
+@endpush

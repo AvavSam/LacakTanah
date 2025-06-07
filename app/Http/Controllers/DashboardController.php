@@ -22,7 +22,12 @@ class DashboardController extends Controller
       ->whereBetween('dokumen_expiry', [$today, $threshold])
       ->count();
 
-    return view('dashboard', compact('totalLands', 'expiringCount'));
+    // Ambil semua titik tanah dengan koordinat
+    $landPoints = Land::whereNotNull('latitude')
+      ->whereNotNull('longitude')
+      ->get(['latitude', 'longitude', 'kode_bidang', 'owner_name']);
+
+    return view('dashboard', compact('totalLands', 'expiringCount', 'landPoints'));
   }
 
   /**
